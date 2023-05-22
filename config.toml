@@ -1,0 +1,7 @@
+[acled]
+api_url = "https://api.acleddata.com/acled/read"
+key = "mPrah7ftuQ8KcxTmSKjb"
+email = "jorge.martinezgomez@wfp.org"
+start_date = "2020-01-01"
+
+[database]
