@@ -42,11 +42,31 @@ impl<'de> Deserialize<'de> for Config {
         // Configuring database parameters.
         let db = value.get("database").expect("Missing database section");
 
-        let host = db.get("host").expect("Missing parameter host");
-        let user = db.get("user").expect("Missing parameter user");
-        let password = db.get("password").expect("Missing parameter password");
-        let port = db.get("port").expect("Missing parameter port");
-        let name = db.get("name").expect("Missing parameter name");
+        let host = db
+            .get("host")
+            .expect("Missing parameter host")
+            .as_str()
+            .expect("Parameter host is not a string");
+        let user = db
+            .get("user")
+            .expect("Missing parameter user")
+            .as_str()
+            .expect("Parameter user is not a string");
+        let password = db
+            .get("password")
+            .expect("Missing parameter password")
+            .as_str()
+            .expect("Parameter password is not a string");
+        let port = db
+            .get("port")
+            .expect("Missing parameter port")
+            .as_integer()
+            .expect("Parameter port is not a number");
+        let name = db
+            .get("name")
+            .expect("Missing parameter name")
+            .as_str()
+            .expect("Parameter name is not a string");
 
         let db_url = format!("postgres://{user}:{password}@{host}:{port}/{name}");
 
