@@ -50,7 +50,7 @@ pub struct Incident {
     event_type: String,
     event_id_cnty: String,
     fatalities: i64,
-    iso: i64,
+    iso: i16,
     notes: String,
     source: String,
     source_scale: String,
@@ -158,7 +158,7 @@ impl<'de> Deserialize<'de> for Incident {
                 .expect("iso not found")
                 .as_str()
                 .expect("iso is not string")
-                .parse::<i64>()
+                .parse::<i16>()
                 .expect("Failed parsing iso"),
             notes: json
                 .get("notes")

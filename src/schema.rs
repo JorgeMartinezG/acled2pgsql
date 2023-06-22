@@ -22,7 +22,7 @@ pub mod acled {
             event_date -> Date,
             event_type -> Varchar,
             fatalities -> Int8,
-            iso -> Int8,
+            iso -> Int2,
             notes -> Varchar,
             source -> Varchar,
             source_scale -> Varchar,

@@ -45,6 +45,11 @@ fn main() {
         info!("Fetching data for country {:?}", iso);
         let mut page = 1;
 
+        // Deleting old data for that country.
+        diesel::delete(incidents::table.filter(incidents::iso.eq(*code)))
+            .execute(&mut conn)
+            .expect("Could not delete rows");
+
         loop {
             let request = Request::new(config.clone(), page, *code);
 

@@ -29,11 +29,11 @@ pub struct Params {
 pub struct Request {
     config: Rc<Config>,
     page: u8,
-    iso: u16,
+    iso: i16,
 }
 
 impl Request {
-    pub fn new(config: Rc<Config>, page: u8, iso: u16) -> Self {
+    pub fn new(config: Rc<Config>, page: u8, iso: i16) -> Self {
         Self { config, page, iso }
     }
 }

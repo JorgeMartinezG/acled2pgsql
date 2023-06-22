@@ -12,7 +12,7 @@ CREATE TABLE acled.incidents (
     event_date DATE NOT NULL,
     event_type VARCHAR NOT NULL,
     fatalities BIGINT NOT NULL,
-    iso BIGINT NOT NULL,
+    iso SMALLINT NOT NULL,
     notes VARCHAR NOT NULL,
     source VARCHAR NOT NULL,
     source_scale VARCHAR NOT NULL,

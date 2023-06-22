@@ -11,7 +11,7 @@ use toml::Value;
 pub struct Config {
     pub acled: Params,
     pub db_url: String,
-    pub country_codes: HashMap<String, u16>,
+    pub country_codes: HashMap<String, i16>,
 }
 
 impl Config {
@@ -70,7 +70,7 @@ impl<'de> Deserialize<'de> for Config {
 
         let db_url = format!("postgres://{user}:{password}@{host}:{port}/{name}");
 
-        let country_codes: HashMap<String, u16> = Value::try_into(
+        let country_codes: HashMap<String, i16> = Value::try_into(
             value
                 .get("country_codes")
                 .expect("could not get country_codes field")
