@@ -4,7 +4,14 @@ key = "mPrah7ftuQ8KcxTmSKjb"
 email = "jorge.martinezgomez@wfp.org"
 start_date = "2020-01-01"
 
-[iso]
+[database]
+host = "localhost"
+port = 5433
+user = "gis"
+password = "gis"
+name = "wfp"
+
+[country_codes]
 CMR = 120
 CAF = 140
 TCD = 148
