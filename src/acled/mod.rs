@@ -23,7 +23,7 @@ pub struct Params {
     pub api_url: String,
     key: String,
     email: String,
-    start_date: NaiveDate,
+    start_date: Option<NaiveDate>,
 }
 
 pub struct Request {
@@ -50,7 +50,8 @@ impl Serialize for Request {
             ..
         } = &self.config.acled;
         let end_date = Utc::now().date_naive();
-        let event_date = format!("{start_date}|{end_date}");
+        let start = start_date.unwrap();
+        let event_date = format!("{start}|{end_date}");
 
         let mut s = serializer.serialize_struct("Request", 6)?;
         s.serialize_field("key", key)?;

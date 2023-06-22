@@ -15,6 +15,8 @@ use std::rc::Rc;
 fn main() {
     let config = Rc::new(Config::new("./config.toml"));
 
+    println!("{:?}", config);
+
     let client = Client::new();
 
     let mut page = 1;
@@ -40,10 +42,13 @@ fn main() {
             break;
         }
 
+        /*
+
         diesel::insert_into(incidents::table)
             .values(&resp.data[0])
             .execute(&mut conn)
             .expect("Error saving new post");
+        */
 
         page += 1;
     }
