@@ -5,6 +5,8 @@ mod schema;
 
 use crate::acled::{Request, Response};
 use crate::config::Config;
+use clap::Parser;
+
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use log::{debug, info};
@@ -15,10 +17,24 @@ use std::rc::Rc;
 
 const CHUNK_SIZE: usize = 2000;
 
-fn main() {
-    env_logger::init();
+#[derive(Parser, Debug)]
+#[command(name = "acled2pgsql")]
+#[command(author = "Jorge Martinez <jorge.martinezgomez@wfp.org>")]
+#[command(version = "1.0")]
+#[command(about = "Ingest data into postgresql from acled api", long_about = None)]
+struct Cli {
+    #[arg(long)]
+    config: String,
+}
 
-    let config = Rc::new(Config::new("./config.toml"));
+fn main() {
+    env_logger::builder()
+        .filter_level(log::LevelFilter::Info)
+        .init();
+
+    let cli = Cli::parse();
+
+    let config = Rc::new(Config::new(&cli.config));
 
     let client = Client::new();
 
