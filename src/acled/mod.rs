@@ -60,6 +60,7 @@ impl Serialize for Request {
         s.serialize_field("iso", &self.iso)?;
         s.serialize_field("event_date", &event_date)?;
         s.serialize_field("event_date_where", "BETWEEN")?;
+        s.serialize_field("limit", &2000)?;
         s.end()
     }
 }

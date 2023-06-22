@@ -15,41 +15,44 @@ use std::rc::Rc;
 fn main() {
     let config = Rc::new(Config::new("./config.toml"));
 
-    println!("{:?}", config);
-
     let client = Client::new();
 
-    let mut page = 1;
-    let iso = 170;
-
-    let database_url = "postgres://geonode:geonode@localhost:5433/geonode";
+    let database_url = "postgres://gis:gis@localhost:5433/wfp";
 
     let mut conn = PgConnection::establish(&database_url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url));
 
-    loop {
-        let request = Request::new(config.clone(), page, iso);
+    config.country_codes.iter().for_each(|(iso, code)| {
+        println!("Fetching data for country {:?}", iso);
+        let mut page = 1;
 
-        let resp: Response = client
-            .get(&config.acled.api_url)
-            .query(&request)
-            .send()
-            .expect("Failed to run request")
-            .json()
-            .expect("Failed parsing json");
+        loop {
+            let request = Request::new(config.clone(), page, *code);
 
-        if resp.count == 0 {
-            break;
+            let resp: Response = client
+                .get(&config.acled.api_url)
+                .query(&request)
+                .send()
+                .expect("Failed to run request")
+                .json()
+                .expect("Failed parsing json");
+
+            if resp.count == 0 {
+                break;
+            }
+
+            println!("iso = {} - page = {} - count = {}", iso, page, resp.count);
+
+            resp.data.chunks(2000).for_each(|chunk| {
+                println!("Saving {} into database", chunk.len());
+
+                diesel::insert_into(incidents::table)
+                    .values(chunk)
+                    .execute(&mut conn)
+                    .expect("Error saving new post");
+            });
+
+            page += 1;
         }
-
-        /*
-
-        diesel::insert_into(incidents::table)
-            .values(&resp.data[0])
-            .execute(&mut conn)
-            .expect("Error saving new post");
-        */
-
-        page += 1;
-    }
+    });
 }
