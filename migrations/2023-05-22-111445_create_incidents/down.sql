@@ -1,4 +1,4 @@
 -- This file should undo anything in `up.sql`
-DROP TABLE acled.incidents;
+DROP TABLE wfp.wld_inc_acled;
 
-DROP SCHEMA acled;
+DROP SCHEMA wfp;

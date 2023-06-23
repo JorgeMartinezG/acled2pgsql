@@ -3,7 +3,7 @@
 
 [print_schema]
 file = "src/schema.rs"
-schema = "acled"
+schema = "wfp"
 
 [migrations_directory]
 dir = "migrations"

@@ -1,7 +1,7 @@
-CREATE SCHEMA IF NOT EXISTS acled;
+CREATE SCHEMA IF NOT EXISTS wfp;
 
 -- Your SQL goes here
-CREATE TABLE acled.incidents (
+CREATE TABLE wfp.wld_inc_acled (
     event_id_cnty VARCHAR PRIMARY KEY,
     actor1 VARCHAR NOT NULL,
     actor2 VARCHAR NOT NULL,
@@ -19,7 +19,8 @@ CREATE TABLE acled.incidents (
     sub_event_type VARCHAR NOT NULL,
     timestamp BIGINT NOT NULL,
     year INTEGER NOT NULL,
+    iso3 VARCHAR NOT NULL,
     geom GEOMETRY(POINT, 4326) NOT NULL
 );
 
-CREATE INDEX iso3_idx ON acled.incidents (iso);
+CREATE INDEX iso3_idx ON wfp.wld_inc_acled (iso);

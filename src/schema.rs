@@ -11,7 +11,7 @@ pub mod acled {
         use diesel::sql_types::*;
         use super::sql_types::Geometry;
 
-        acled.incidents (event_id_cnty) {
+        wfp.wld_inc_acled (event_id_cnty) {
             event_id_cnty -> Varchar,
             actor1 -> Varchar,
             actor2 -> Varchar,
@@ -29,6 +29,7 @@ pub mod acled {
             sub_event_type -> Varchar,
             timestamp -> Int8,
             year -> Int4,
+            iso3 -> Varchar,
             geom -> Geometry,
         }
     }

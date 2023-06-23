@@ -1,4 +1,4 @@
-mod incident;
+pub mod incident;
 
 use chrono::{NaiveDate, Utc};
 use serde::ser::{Serialize, SerializeStruct, Serializer};

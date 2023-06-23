@@ -12,7 +12,8 @@ use diesel::prelude::*;
 use log::{debug, info};
 use reqwest::blocking::Client;
 
-use schema::acled::incidents;
+use crate::acled::incident::Incident;
+use schema::acled::wld_inc_acled as incidents;
 use std::rc::Rc;
 
 const CHUNK_SIZE: usize = 2000;
@@ -67,7 +68,14 @@ fn main() {
 
             info!("iso = {} - page = {} - count = {}", iso, page, resp.count);
 
-            resp.data.chunks(CHUNK_SIZE).for_each(|chunk| {
+            // Include iso3 within the table.
+            let incidents_iso3: Vec<Incident> = resp
+                .data
+                .into_iter()
+                .map(|inc| Incident::with_iso3(inc, iso))
+                .collect();
+
+            incidents_iso3.chunks(CHUNK_SIZE).for_each(|chunk| {
                 debug!("Saving {} into database", chunk.len());
 
                 diesel::insert_into(incidents::table)

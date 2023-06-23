@@ -1,5 +1,5 @@
-use crate::schema::acled::incidents;
 use crate::schema::acled::sql_types::Geometry;
+use crate::schema::acled::wld_inc_acled;
 use chrono::NaiveDate;
 use postgis::ewkb::{AsEwkbPoint, EwkbRead, EwkbWrite, GeometryT, Point};
 use std::io::Cursor;
@@ -38,7 +38,7 @@ impl FromSql<Geometry, Pg> for PointType {
 }
 
 #[derive(Debug, Queryable, Insertable)]
-#[diesel(table_name = incidents)]
+#[diesel(table_name = wld_inc_acled)]
 pub struct Incident {
     actor1: String,
     actor2: String,
@@ -58,6 +58,16 @@ pub struct Incident {
     timestamp: i64,
     year: i32,
     geom: PointType,
+    iso3: Option<String>,
+}
+
+impl Incident {
+    pub fn with_iso3(self, iso3: &str) -> Self {
+        Self {
+            iso3: Some(iso3.to_string()),
+            ..self
+        }
+    }
 }
 
 impl<'de> Deserialize<'de> for Incident {
@@ -193,6 +203,7 @@ impl<'de> Deserialize<'de> for Incident {
                 .expect("Failed parsing timestamp"),
             //geom: Point::new(longitude, latitude, Some(4326)),
             geom: PointType(Point::new(longitude, latitude, Some(4326))),
+            iso3: None,
         })
     }
 }
